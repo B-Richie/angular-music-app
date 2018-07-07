@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class AlbumService {
  
-  private ablumUrl = 'api/album';
+  private ablumUrl = 'api/albums';
  
   constructor(
     private http: HttpClient) { }
@@ -56,7 +56,7 @@ export class AlbumService {
  
 
   deleteAlbum (album: Album | number): Observable<Album> {
-    const id = typeof album === 'number' ? album : album.id;
+    const id = typeof album === 'number' ? album : album.AlbumID;
     const url = `${this.ablumUrl}/${id}`;
  
     return this.http.delete<Album>(url, httpOptions).pipe(
