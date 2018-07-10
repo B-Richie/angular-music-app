@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
  
 import { Artist } from './artist';
-import {handleError} from './error-handling';
+//import {handleError} from './error-handling';
  
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,7 +24,7 @@ export class ArtistService {
     return this.http.get<Artist[]>(this.artistUrl)
       .pipe(
         
-        catchError(handleError('getArtists', []))
+        catchError(this.handleError('getArtists', []))
       );
   } 
 
@@ -32,7 +32,7 @@ export class ArtistService {
     const url = `${this.artistUrl}/${id}`;
     return this.http.get<Artist>(url).pipe(
       
-      catchError(handleError<Artist>(`getArtist id=${id}`))
+      catchError(this.handleError<Artist>(`getArtist id=${id}`))
     );
   }
  
@@ -43,33 +43,42 @@ export class ArtistService {
     }
     return this.http.get<Artist[]>(`${this.artistUrl}/?name=${term}`).pipe(
       
-      catchError(handleError<Artist[]>('searchArtist', []))
+      catchError(this.handleError<Artist[]>('searchArtist', []))
     );
   }
  
   addArtist (artist: Artist): Observable<Artist> {
     return this.http.post<Artist>(this.artistUrl, artist, httpOptions).pipe(
       
-      catchError(handleError<Artist>('addArtist'))
+      catchError(this.handleError<Artist>('addArtist'))
     );
   }
  
 
   deleteArtist (artist: Artist | number): Observable<Artist> {
-    const id = typeof artist === 'number' ? artist : artist.ArtistID;
+    const id = typeof artist === 'number' ? artist : artist.id;
     const url = `${this.artistUrl}/${id}`;
  
     return this.http.delete<Artist>(url, httpOptions).pipe(
       
-      catchError(handleError<Artist>('deleteArtist'))
+      catchError(this.handleError<Artist>('deleteArtist'))
     );
   }
  
   updateArtist (artist: Artist): Observable<any> {
     return this.http.put(this.artistUrl, artist, httpOptions).pipe(
       
-      catchError(handleError<any>('updateArtist'))
+      catchError(this.handleError<any>('updateArtist'))
     );
-  } 
+  }
+  
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+ 
+      console.error(error); 
+      
+      return of(result as T);
+    };
+  }
 
 }

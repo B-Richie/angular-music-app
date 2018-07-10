@@ -1,3 +1,24 @@
-<p>
-  artists works!
-</p>
+<h2>Artists</h2>
+<button (click)="selectRow(0)">add</button>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>Artist ID</th>
+      <th>Artist Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let artist of artists" (click)="selectRow(artist.id)">
+      <td>{{artist.id}}</td>
+      <td>{{artist.ArtistName}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- <ul>
+  <li *ngFor="let artist of artists" >    
+      {{artist.ArtistName}}
+  </li>
+</ul>
+<button (click)="testGet()">test</button> -->

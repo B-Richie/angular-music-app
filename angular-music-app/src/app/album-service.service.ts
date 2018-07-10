@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
  
 import { Album } from './album';
-import {handleError} from './error-handling';
+//import {handleError} from './error-handling';
  
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,7 +24,7 @@ export class AlbumService {
     return this.http.get<Album[]>(this.ablumUrl)
       .pipe(
         
-        catchError(handleError('getAlbums', []))
+        catchError(this.handleError('getAlbums', []))
       );
   } 
 
@@ -32,7 +32,7 @@ export class AlbumService {
     const url = `${this.ablumUrl}/${id}`;
     return this.http.get<Album>(url).pipe(
       
-      catchError(handleError<Album>(`getAlbum id=${id}`))
+      catchError(this.handleError<Album>(`getAlbum id=${id}`))
     );
   }
  
@@ -43,14 +43,14 @@ export class AlbumService {
     }
     return this.http.get<Album[]>(`${this.ablumUrl}/?name=${term}`).pipe(
       
-      catchError(handleError<Album[]>('searchAlbums', []))
+      catchError(this.handleError<Album[]>('searchAlbums', []))
     );
   }
  
   addAlbum (album: Album): Observable<Album> {
     return this.http.post<Album>(this.ablumUrl, album, httpOptions).pipe(
       
-      catchError(handleError<Album>('addAlbum'))
+      catchError(this.handleError<Album>('addAlbum'))
     );
   }
  
@@ -61,23 +61,23 @@ export class AlbumService {
  
     return this.http.delete<Album>(url, httpOptions).pipe(
       
-      catchError(handleError<Album>('deleteAlbum'))
+      catchError(this.handleError<Album>('deleteAlbum'))
     );
   }
  
   updateAlbum (album: Album): Observable<any> {
     return this.http.put(this.ablumUrl, album, httpOptions).pipe(
       
-      catchError(handleError<any>('updateAlbum'))
+      catchError(this.handleError<any>('updateAlbum'))
     );
   }
  
-  // private handleError<T> (operation = 'operation', result?: T) {
-  //   return (error: any): Observable<T> => {
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
  
-  //     console.error(error); 
+      console.error(error); 
       
-  //     return of(result as T);
-  //   };
-  //}
+      return of(result as T);
+    };
+  }
 }
