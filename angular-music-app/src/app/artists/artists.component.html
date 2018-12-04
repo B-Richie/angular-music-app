@@ -1,6 +1,6 @@
 <h2>Artists</h2>
 <button (click)="selectRow(0)">add</button>
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" dt-instance="datatableElement">
   <thead>
     <tr>
       <th>Artist ID</th>

@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {tap} from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { GlobalArtist } from '../global-artist';
 
 @Component({
   selector: 'app-artist-details',
@@ -18,12 +19,17 @@ import { Observable } from 'rxjs';
 export class ArtistDetailsComponent implements OnInit {
 
   @Input() artist: Artist;
+  //gArtist: Artist;
   @ViewChild('btnCrud') btn: ElementRef;
+  //@ViewChild('display') display: ElementRef;
   artistForm: FormGroup;
+  //public display = "block";
+  display = 'none';
 
 
-  constructor(private route: ActivatedRoute, private artistService: ArtistService, private location: Location, private fb: FormBuilder){
+  constructor(private route: ActivatedRoute, private artistService: ArtistService, private location: Location, private fb: FormBuilder, private globalArtist: GlobalArtist){
     //debugger;
+
     this.createForm();
    }
 
@@ -54,17 +60,22 @@ export class ArtistDetailsComponent implements OnInit {
   OnSubmit(){
 
     //debugger;
-
+    this.artist = this.artistForm.value;
+    this.globalArtist.dirtyArtist = this.artist;
     if (this.btn.nativeElement.textContent == 'update')
     {
-      this.artist = this.artistForm.value;
+      
       this.artistService.updateArtist(this.artist).subscribe(() => this.goBack());
     }
     else{
       
       this.artist = this.artistForm.value;
 
-      this.artistService.addArtist({ArtistName: this.artist.ArtistName} as Artist).subscribe(() => this.goBack());
+      this.artistService.addArtist({ArtistName: this.artist.ArtistName} as Artist).subscribe(() =>{
+
+        this.goBack();
+        
+        });
     } 
 
   }
@@ -79,7 +90,7 @@ export class ArtistDetailsComponent implements OnInit {
   }
 
   getArtist(): void{
-    debugger;
+    //debugger;
     const id = +this.route.snapshot.paramMap.get('id');
     if (id != 0)
     {
@@ -87,7 +98,7 @@ export class ArtistDetailsComponent implements OnInit {
         artist = this.artist;
       });
 
-      var x = this.artist;
+      //var x = this.artist;
     }
     else{
       this.btn.nativeElement.textContent = 'add';
@@ -102,13 +113,30 @@ export class ArtistDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  save(): void{
-    // debugger;
-    // if (this.artistForm.get('btnCrud').value == 'update')
-    // {
-    //   this.artistService.updateArtist(this.artist).subscribe(() => this.goBack());
-    // }    
+  modalOpen(){
+    //debugger;
+    return this.display ='block';
   }
+  modalClose(){
+    return this.display ='none';
+  }
+  getStyle(){
+    //debugger;
+    return 'none';
+  }
+
+  deleteArtist(artistForm): void{
+    this.artist = artistForm.value;
+    this.artistService.deleteArtist(this.artist).subscribe(() => this.goBack());
+  }
+
+  // save(): void{
+  //   // debugger;
+  //   // if (this.artistForm.get('btnCrud').value == 'update')
+  //   // {
+  //   //   this.artistService.updateArtist(this.artist).subscribe(() => this.goBack());
+  //   // }    
+  // }
 
   // this.artistForm.setValue({
   //   ArtistName: this.artist.ArtistName

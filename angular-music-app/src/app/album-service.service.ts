@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
  
 import { Album } from './album';
+
 //import {handleError} from './error-handling';
  
 const httpOptions = {
@@ -19,6 +20,14 @@ export class AlbumService {
   constructor(
     private http: HttpClient) { }
  
+
+    // getAlbums (): Observable<Album[]> {
+    //   return this.http.get<Album[]>(this.ablumUrl)
+    //     .pipe(map((albums) => { return albums}),
+          
+    //       catchError(this.handleError('getAlbums', []))
+    //     );
+    // }
 
   getAlbums (): Observable<Album[]> {
     return this.http.get<Album[]>(this.ablumUrl)
@@ -41,7 +50,7 @@ export class AlbumService {
 
       return of([]);
     }
-    return this.http.get<Album[]>(`${this.ablumUrl}/?name=${term}`).pipe(
+    return this.http.get<Album[]>(`${this.ablumUrl}/?AlbumName=${term}`).pipe(
       
       catchError(this.handleError<Album[]>('searchAlbums', []))
     );

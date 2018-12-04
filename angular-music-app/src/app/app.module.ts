@@ -4,6 +4,9 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {InMemoryDataService} from './in-memory-data.service';
+//import {ModalService} from 'angular-bootstrap-modal'
+//import {PagingService} from './paging-service.service';
+
 
 import { AppComponent } from './app.component';
 import { ArtistsComponent } from './artists/artists.component';
@@ -15,6 +18,10 @@ import {ArtistDetailsComponent} from './artist-details/artist-details.component'
 import { AppRoutingModule } from './/app-routing.module';
 import {DataTablesModule} from 'angular-datatables';
 import {ReactiveFormsModule} from '@angular/forms';
+import {GlobalArtist} from './global-artist';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+
 
 @NgModule({
   declarations: [
@@ -25,6 +32,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     AlbumDetailsComponent,
     TrackDetailsComponent,
     ArtistDetailsComponent
+
   ],
   imports: [
     BrowserModule,
@@ -36,9 +44,11 @@ import {ReactiveFormsModule} from '@angular/forms';
       InMemoryDataService, {dataEncapsulation: false}
     ),
     AppRoutingModule,
-    DataTablesModule
+    DataTablesModule,
+    NgbModule.forRoot(),
+    //ModalService
   ],
-  providers: [],
+  providers: [GlobalArtist],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

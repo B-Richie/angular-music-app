@@ -1,4 +1,4 @@
-<p>
+<!-- <p>
   albums works!
 </p>
 
@@ -6,4 +6,34 @@
   <li *ngFor="let album of albums">
     <span class="badge">{{album.id}}</span> {{album.AlbumName}}
   </li>
-</ul>
+</ul> -->
+
+<h2>Albums</h2>
+<input #albumSearch id="album-search-box" (keyup)="search(albumSearch.value)">
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Album ID</th>
+      <th>Album Name</th>
+      <th>Number of Tracks</th>
+      <th>Release Year</th>
+      <th>Cost</th>
+      <th>Genre</th>
+      <th>Artist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- <tr *ngFor="let album of pagedAlbums"> -->
+      <tr *ngFor="let album of albums$ | async">
+      <td>{{album.id}}</td>
+      <td>{{album.AlbumName}}</td>
+      <td>{{album.NumberOfTracks}}</td>
+      <td>{{album.ReleaseYear}}</td>
+      <td>{{album.Cost}}</td>
+      <td>{{album.Genre}}</td>
+      <td>{{album.ArtistName}}</td>
+    </tr>
+  </tbody>     
+</table>
+<ngb-pagination [collectionSize]="130" [(page)]="pager.CurrentPage" [(maxSize)]="pager.PageSize" [rotate]="true" [boundaryLinks]="true" (pageChange)="setPage($event)"></ngb-pagination> 
+

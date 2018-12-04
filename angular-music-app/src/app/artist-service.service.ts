@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
  
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
  
 import { Artist } from './artist';
+import { GlobalArtist } from './global-artist';
 //import {handleError} from './error-handling';
  
 const httpOptions = {
@@ -17,7 +18,7 @@ export class ArtistService {
   private artistUrl = 'api/artists';
  
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient, private globalArtist: GlobalArtist) { }
  
 
   getArtists (): Observable<Artist[]> {
