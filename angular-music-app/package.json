@@ -30,9 +30,11 @@
     "datatables.net-dt": "^1.10.19",
     "datatables.net-select": "^1.2.7",
     "datatables.net-select-dt": "^1.2.7",
+    "extend": "^3.0.2",
     "jquery": "^3.3.1",
     "mixin-deep": "^2.0.1",
     "rxjs": "^6.0.0",
+    "set-value": "^3.0.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
