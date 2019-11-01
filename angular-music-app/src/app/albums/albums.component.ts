@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album-service.service';
 import { Album } from '../album';
 import { map, debounceTime, distinctUntilChanged, switchMap, mapTo, filter, take, subscribeOn } from '../../../node_modules/rxjs/operators';
-import { Observable, Subject, Observer, of } from '../../../node_modules/rxjs';
+import { Observable, Subject, Observer, of, Subscription } from '../../../node_modules/rxjs';
 import {PagingService} from '../paging-service.service';
 import {Pager} from '../pager';
 import {flatMap} from 'rxjs/operators';
@@ -20,21 +20,22 @@ export class AlbumsComponent implements OnInit {
     this.pager.PageSize = 10;
     
   }
-  albums: Album[];
+  //albums: Album[];
   albums$: Observable<Album[]>;
-  oAlbums$: any = [];
+  //oAlbums$: any = [];
   //albums$: Album[];
-  pagedAlbums: Album[];
+  //pagedAlbums: Album[];
   pager: Pager;
   //pager = new Pager();
-  page = 1;
-  previousPage: any;
-  pageLength: any;
-  maxSize = 10;
-  startIndex = 0;
-  endIndex = 0;
+  //page = 1;
+  //previousPage: any;
+  //pageLength: any;
+  //maxSize = 10;
+  //startIndex = 0;
+  //endIndex = 0;
   arrayLength = 0;
   private searchTerms = new Subject<string>();
+  private subscription: Subscription;
 
 
   ngOnInit() {
@@ -65,7 +66,7 @@ export class AlbumsComponent implements OnInit {
     //works with method
     //this.albums$ = this.getAlbums();
 
-    this.albumService.getAlbums().subscribe(albums =>{
+    this.subscription = this.albumService.getAlbums().subscribe(albums =>{
       this.albums$ = of(albums);
       this.arrayLength = albums.length;
       this.setPage(this.pager.CurrentPage);      
@@ -153,7 +154,8 @@ export class AlbumsComponent implements OnInit {
 
 
   ngOnDestroy(){
-
+    debugger;
+    this.subscription.unsubscribe();
   }
   // //this works with pagedAlbums
   // getAlbums():Observable<void>{
