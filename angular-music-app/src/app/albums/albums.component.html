@@ -24,7 +24,7 @@
   </thead>
   <tbody>
     <!-- <tr *ngFor="let album of pagedAlbums"> -->
-      <tr *ngFor="let album of albums$ | async">
+      <tr *ngFor="let album of albums$ | async | slice:pager.StartIndex:pager.EndIndex">
       <td>{{album.id}}</td>
       <td>{{album.AlbumName}}</td>
       <td>{{album.NumberOfTracks}}</td>

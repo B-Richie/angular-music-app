@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
  
 import { Album } from './album';
 
+
 //import {handleError} from './error-handling';
  
 const httpOptions = {
@@ -21,21 +22,31 @@ export class AlbumService {
     private http: HttpClient) { }
  
 
-    // getAlbums (): Observable<Album[]> {
-    //   return this.http.get<Album[]>(this.ablumUrl)
-    //     .pipe(map((albums) => { return albums}),
-          
-    //       catchError(this.handleError('getAlbums', []))
-    //     );
-    // }
+            // //this works with albums$ (observable) must return value
+            // getAlbums (): Observable<Album[]> {
+            //   return this.http.get<Album[]>(this.ablumUrl)
+            //     .pipe(map((albums: Observable<Album[]>) => { return albums; }),
+                  
+            //       catchError(this.handleError('getAlbums', []))
+            //     );
+            // }
 
-  getAlbums (): Observable<Album[]> {
-    return this.http.get<Album[]>(this.ablumUrl)
-      .pipe(
-        
-        catchError(this.handleError('getAlbums', []))
-      );
-  } 
+
+    //this works with pagedAlbums and albums$ (array and observable)
+    getAlbums (): Observable<Album[]> {
+      return this.http.get<Album[]>(this.ablumUrl)
+        .pipe(map((albums) => { return albums}),
+          
+          catchError(this.handleError('getAlbums', []))
+        );
+    }
+
+  // getAlbums (): Observable<Album[]> {
+  //   return this.http.get<Album[]>(this.ablumUrl)
+  //     .pipe(
+  //       catchError(this.handleError('getAlbums', []))
+  //     );
+  // } 
 
   getAlbum(id: number): Observable<Album> {
     const url = `${this.ablumUrl}/${id}`;
