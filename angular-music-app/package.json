@@ -48,7 +48,7 @@
     "tar": "^5.0.5",
     "url-parse": "^1.4.7",
     "webpack-dev-server": "^3.9.0",
-    "ws": "^7.2.0",
+    "ws": "^7.4.6",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
